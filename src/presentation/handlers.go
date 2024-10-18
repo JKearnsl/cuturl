@@ -29,7 +29,9 @@ func makeUrlHandler(ctx *fasthttp.RequestCtx, ioc InteractorFactory) {
 	makeUrl := ioc.MakeUrl()
 	response, err := makeUrl.Execute(&application.MakeUrlRequest{Url: string(url)})
 	if err != nil {
-		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
+		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		ctx.SetContentType("application/json")
+		ctx.SetBodyString("{\"error\": \"invalid url\"}")
 		return
 	}
 
