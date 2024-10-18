@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
+	"log"
 )
 
 func MakeUrlHandler(ioc InteractorFactory) *router.Router {
@@ -20,11 +21,55 @@ func MakeUrlHandler(ioc InteractorFactory) *router.Router {
 }
 
 func indexHandler(ctx *fasthttp.RequestCtx) {
-	ctx.SetBodyString("Hello, indexHandler!\n")
+	ctx.SetContentType("text/html")
+	ctx.SetBodyString(`
+		<!DOCTYPE html>
+		<html lang="en">
+		<head>
+			<title>CutURL</title>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+		</head>
+		<body>
+		
+		<h1>Cut your URL</h1>
+		<p>This program allows you to shorten links</p>
+		
+		<label>
+			<input alt="Input url" placeholder="https://google.com">
+			<button>Shorten</button>
+		</label>
+		
+		
+		<script>
+	
+			const input = document.querySelector('input');
+			const button = document.querySelector('button');
+	
+			button.addEventListener('click', () => {
+				const url = input.value;
+				formdata = new FormData();
+				formdata.append("url", url);
+				fetch('/shorten', {
+					method: 'POST',
+					body: formdata
+				})
+				.then(response => response.json())
+				.then(data => {
+					input.value = input.value = window.location.origin + "/" + data.Code;
+				});
+			});
+		</script>
+		
+		</body>
+		</html>
+	`)
 }
 
 func makeUrlHandler(ctx *fasthttp.RequestCtx, ioc InteractorFactory) {
 	url := ctx.FormValue("url")
+	log.Printf("url: %s", url)
 
 	makeUrl := ioc.MakeUrl()
 	response, err := makeUrl.Execute(&application.MakeUrlRequest{Url: string(url)})
