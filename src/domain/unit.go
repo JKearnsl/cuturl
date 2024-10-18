@@ -7,8 +7,8 @@ import (
 )
 
 type Unit struct {
-	CODE string `json:"code"`
-	URL  string `json:"url"`
+	Code string `json:"code"`
+	Url  string `json:"url"`
 }
 
 func CreateUnit(url string) (*Unit, error) {
@@ -26,7 +26,7 @@ func CreateUnit(url string) (*Unit, error) {
 	}
 
 	return &Unit{
-		CODE: string(code),
-		URL:  url,
+		Code: string(code),
+		Url:  url,
 	}, nil
 }

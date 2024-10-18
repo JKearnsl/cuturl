@@ -9,7 +9,7 @@ type GetUrlRequest struct {
 }
 
 type GetUrlResponse struct {
-	URL string
+	Url string
 }
 
 type GetUrl struct {
@@ -24,6 +24,6 @@ func (m *GetUrl) Execute(input *GetUrlRequest) (*GetUrlResponse, error) {
 	}
 
 	return &GetUrlResponse{
-		URL: url.URL,
+		Url: url.Url,
 	}, nil
 }

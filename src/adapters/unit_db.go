@@ -11,7 +11,7 @@ type BadgerUnitGateway struct {
 
 func (b *BadgerUnitGateway) Save(unit *domain.Unit) error {
 	err := b.db.Update(func(txn *badger.Txn) error {
-		return txn.Set([]byte(unit.CODE), []byte(unit.URL))
+		return txn.Set([]byte(unit.Code), []byte(unit.Url))
 	})
 	if err != nil {
 		return err
@@ -28,8 +28,8 @@ func (b *BadgerUnitGateway) Get(code string) (*domain.Unit, error) {
 		}
 		err = item.Value(func(val []byte) error {
 			unit = domain.Unit{
-				CODE: code,
-				URL:  string(val),
+				Code: code,
+				Url:  string(val),
 			}
 			return nil
 		})

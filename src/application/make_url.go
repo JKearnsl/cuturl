@@ -6,7 +6,7 @@ import (
 )
 
 type MakeUrlRequest struct {
-	URL string
+	Url string
 }
 
 type MakeUrlResponse struct {
@@ -19,7 +19,7 @@ type MakeUrl struct {
 
 func (m *MakeUrl) Execute(input *MakeUrlRequest) (*MakeUrlResponse, error) {
 
-	unit, err := domain.CreateUnit(input.URL)
+	unit, err := domain.CreateUnit(input.Url)
 	if err != nil {
 		return nil, err
 	}
@@ -30,6 +30,6 @@ func (m *MakeUrl) Execute(input *MakeUrlRequest) (*MakeUrlResponse, error) {
 	}
 
 	return &MakeUrlResponse{
-		Code: unit.CODE,
+		Code: unit.Code,
 	}, nil
 }

@@ -27,7 +27,7 @@ func makeUrlHandler(ctx *fasthttp.RequestCtx, ioc InteractorFactory) {
 	url := ctx.FormValue("url")
 
 	makeUrl := ioc.MakeUrl()
-	response, err := makeUrl.Execute(&application.MakeUrlRequest{URL: string(url)})
+	response, err := makeUrl.Execute(&application.MakeUrlRequest{Url: string(url)})
 	if err != nil {
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		return
@@ -56,5 +56,5 @@ func urlHandler(ctx *fasthttp.RequestCtx, ioc InteractorFactory) {
 		return
 	}
 
-	ctx.Redirect(response.URL, fasthttp.StatusMovedPermanently)
+	ctx.Redirect(response.Url, fasthttp.StatusMovedPermanently)
 }
