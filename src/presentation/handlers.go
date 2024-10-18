@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
-	"log"
 )
 
 func MakeUrlHandler(ioc InteractorFactory) *router.Router {
@@ -57,7 +56,11 @@ func indexHandler(ctx *fasthttp.RequestCtx) {
 				})
 				.then(response => response.json())
 				.then(data => {
-					input.value = input.value = window.location.origin + "/" + data.Code;
+					if (data.error) {
+						input.value = data.error
+					} else {
+						input.value = input.value = window.location.origin + "/" + data.Code;
+					}
 				});
 			});
 		</script>
@@ -69,7 +72,6 @@ func indexHandler(ctx *fasthttp.RequestCtx) {
 
 func makeUrlHandler(ctx *fasthttp.RequestCtx, ioc InteractorFactory) {
 	url := ctx.FormValue("url")
-	log.Printf("url: %s", url)
 
 	makeUrl := ioc.MakeUrl()
 	response, err := makeUrl.Execute(&application.MakeUrlRequest{Url: string(url)})
